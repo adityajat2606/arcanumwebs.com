@@ -1,10 +1,10 @@
 export const siteIdentity = {
   code: process.env.NEXT_PUBLIC_SITE_CODE || 'aw7v2m9q4x',
   name: process.env.NEXT_PUBLIC_SITE_NAME || 'Arcanum Webs',
-  tagline: process.env.NEXT_PUBLIC_SITE_TAGLINE || 'Independent editorial platform',
+  tagline: process.env.NEXT_PUBLIC_SITE_TAGLINE || 'Editorial publishing with a sharper voice',
   description:
     process.env.NEXT_PUBLIC_SITE_DESCRIPTION ||
-    'A focused article-led platform for insights, publishing, and long-form updates.',
+    'An article-focused platform for insight-driven publishing, commentary, and feature writing.',
   domain: process.env.NEXT_PUBLIC_SITE_DOMAIN || 'arcanumwebs.com',
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://arcanumwebs.com',
   ogImage: process.env.NEXT_PUBLIC_SITE_OG_IMAGE || '/og-default.png',
