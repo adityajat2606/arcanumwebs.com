@@ -2,25 +2,25 @@ import type { TaskKey } from '@/lib/site-config'
 
 export const siteContent = {
   navbar: {
-    tagline: 'Independent reading platform',
+    tagline: 'Finance & markets publication',
   },
   footer: {
-    tagline: 'Stories, resources, and discoverable posts',
+    tagline: 'Independent editorial on finance and technology',
   },
   hero: {
-    badge: 'Latest stories and visuals',
-    title: ['A thoughtful home for', 'stories, visuals, and discovery.'],
+    badge: 'Latest analysis',
+    title: ['Insights that move with', 'the markets and the news cycle.'],
     description:
-      'Explore fresh articles, image-led posts, and discoverable content across the platform through a calmer and clearer browsing experience.',
+      'Deep dives, explainers, and field notes on finance, technology, and policy—presented with editorial pacing and strong visual hierarchy.',
     primaryCta: {
-      label: 'Read latest stories',
+      label: 'Read latest articles',
       href: '/articles',
     },
     secondaryCta: {
-      label: 'Explore visuals',
-      href: '/images',
+      label: 'Search the archive',
+      href: '/search',
     },
-    searchPlaceholder: 'Search stories, visuals, listings, and more',
+    searchPlaceholder: 'Search articles by topic, title, or tag',
     focusLabel: 'Focus',
     featureCardBadge: 'latest cover rotation',
     featureCardTitle: 'Latest posts shape the visual identity of the homepage.',
@@ -29,48 +29,47 @@ export const siteContent = {
   },
   home: {
     metadata: {
-      title: 'Stories, visuals, and discoverable content',
+      title: 'Articles on finance, technology, and markets',
       description:
-        'Explore articles, images, listings, and curated posts through a cleaner reading-first experience.',
-      openGraphTitle: 'Stories, visuals, and discoverable content',
+        'Editorial coverage, explainers, and long-form analysis on finance, technology, and the forces shaping the economy.',
+      openGraphTitle: 'Articles on finance, technology, and markets',
       openGraphDescription:
-        'Discover articles, visual posts, and connected content through a calmer reading-first experience.',
-      keywords: ['story platform', 'article site', 'visual content', 'content discovery'],
+        'A reading-first publication with sharp typography, curated topics, and a calmer scan rhythm.',
+      keywords: ['finance articles', 'market analysis', 'technology trends', 'editorial', 'long-form journalism'],
     },
-    introBadge: 'About the platform',
-    introTitle: 'Built for reading, browsing, and connecting different kinds of content.',
+    introBadge: 'About the publication',
+    introTitle: 'A single lane for serious reading—articles first, everything else quiet.',
     introParagraphs: [
-      'This site brings together article-style reading, visual browsing, and structured discovery so visitors can move naturally between different content types.',
-      'Instead of separating stories, visuals, and supporting resources into disconnected surfaces, the platform keeps them connected in one place with consistent navigation and easier exploration.',
-      'Whether someone starts with a story, an image-led post, a listing, or a resource page, they can keep discovering related content without friction.',
+      'This homepage is tuned for editorial discovery: a strong lead story, a scannable article grid, and filters that behave like a magazine index rather than a generic dashboard.',
+      'Typography, spacing, and motion are aligned to long-form reading while keeping navigation obvious on every breakpoint.',
+      'When you jump into a piece, the detail templates keep the narrative centered with fewer competing surfaces.',
     ],
-    sideBadge: 'At a glance',
+    sideBadge: 'Editorial principles',
     sidePoints: [
-      'Reading-first homepage with stronger emphasis on stories and imagery.',
-      'Connected sections for articles, visuals, listings, and supporting resources.',
-      'Cleaner browsing rhythm designed to make exploration feel easier.',
-      'Lightweight interactions that keep the experience fast and readable.',
+      'High-contrast type, generous whitespace, and disciplined color use.',
+      'Cards that read like story modules—not marketplace tiles.',
+      'Lightweight motion that reinforces hierarchy instead of distracting from it.',
     ],
     primaryLink: {
       label: 'Browse articles',
       href: '/articles',
     },
     secondaryLink: {
-      label: 'See visuals',
-      href: '/images',
+      label: 'Open search',
+      href: '/search',
     },
   },
   cta: {
-    badge: 'Start exploring',
-    title: 'Explore articles, visuals, and resources through one connected experience.',
+    badge: 'Newsletter',
+    title: 'Subscribe to our newsletter',
     description:
-      'Move between articles, image-led posts, listings, and resources through one clearer and more connected visual system.',
+      'Weekly notes on the stories we are tracking, plus a concise digest of new articles—no clutter, no unrelated product lanes.',
     primaryCta: {
-      label: 'Get Started Free',
+      label: 'Create free account',
       href: '/register',
     },
     secondaryCta: {
-      label: 'Contact Sales',
+      label: 'Talk to editorial',
       href: '/contact',
     },
   },
