@@ -1,37 +1,55 @@
 import Link from 'next/link'
-import { ArrowRight, Sparkles } from 'lucide-react'
+import { Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { siteContent } from '@/config/site.content'
 
 export function CTASection() {
   return (
-    <section className="pb-24 pt-12 sm:pb-28">
+    <section className="pb-24 pt-6 sm:pb-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="relative overflow-hidden rounded-[2rem] border border-[rgba(110,26,55,0.14)] bg-[linear-gradient(135deg,rgba(110,26,55,0.98),rgba(63,18,31,0.98)_55%,rgba(114,186,169,0.9)_160%)] p-8 text-white shadow-[0_30px_90px_rgba(66,24,34,0.22)] sm:p-12 lg:p-16">
-          <div className="absolute inset-0 opacity-[0.16]" style={{ backgroundImage: 'linear-gradient(120deg, rgba(255,255,255,0.16) 0, transparent 26%, transparent 74%, rgba(255,255,255,0.1) 100%)' }} />
-
-          <div className="relative mx-auto max-w-3xl text-center">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/16 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.24em] text-white/88">
-              <Sparkles className="h-4 w-4 text-[#D5E7B5]" />
-              {siteContent.cta.badge}
+        <div className="relative overflow-hidden rounded-[2rem] bg-[#2d5bff] p-8 text-white shadow-[0_28px_80px_rgba(45,91,255,0.35)] sm:p-10 lg:p-14">
+          <div
+            className="pointer-events-none absolute -right-16 -top-24 h-64 w-64 rounded-full bg-white/10"
+            aria-hidden
+          />
+          <div
+            className="pointer-events-none absolute -bottom-20 left-1/3 h-72 w-72 rounded-full border border-white/10"
+            aria-hidden
+          />
+          <div className="relative grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+            <div>
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/90">
+                <Sparkles className="h-3.5 w-3.5" />
+                {siteContent.cta.badge}
+              </div>
+              <h2 className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl">{siteContent.cta.title}</h2>
+              <p className="mt-4 max-w-xl text-sm leading-7 text-white/85 sm:text-base sm:leading-8">{siteContent.cta.description}</p>
             </div>
-
-            <h2 className="text-balance text-3xl font-semibold text-white sm:text-4xl lg:text-5xl">
-              {siteContent.cta.title}
-            </h2>
-
-            <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-white/78 sm:text-lg">
-              {siteContent.cta.description}
-            </p>
-
-            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Button size="lg" asChild className="h-12 rounded-full bg-[#D5E7B5] px-7 text-sm font-semibold text-[#24161b] hover:bg-[#c5db9b]">
-                <Link href={siteContent.cta.primaryCta.href}>
-                  {siteContent.cta.primaryCta.label}
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-              <Button size="lg" variant="outline" asChild className="h-12 rounded-full border-white/20 bg-white/8 px-7 text-sm font-semibold text-white hover:bg-white/12 hover:text-white">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center lg:justify-end">
+              <div className="flex min-h-[52px] flex-1 items-center rounded-full bg-white/95 px-2 py-2 shadow-inner sm:max-w-md lg:min-w-[280px]">
+                <label htmlFor="newsletter-email" className="sr-only">
+                  Email
+                </label>
+                <input
+                  id="newsletter-email"
+                  type="email"
+                  placeholder="Enter your email"
+                  className="min-w-0 flex-1 border-0 bg-transparent px-4 text-sm text-[#0b0b0b] outline-none placeholder:text-[#5c6370]"
+                />
+                <Button
+                  size="sm"
+                  asChild
+                  className="h-10 shrink-0 rounded-full bg-[#2d5bff] px-5 text-sm font-semibold text-white hover:bg-[#2448d9]"
+                >
+                  <Link href={siteContent.cta.primaryCta.href}>Subscribe</Link>
+                </Button>
+              </div>
+              <Button
+                size="sm"
+                variant="outline"
+                asChild
+                className="h-10 rounded-full border-white/35 bg-transparent px-5 text-sm font-semibold text-white hover:bg-white/10 hover:text-white"
+              >
                 <Link href={siteContent.cta.secondaryCta.href}>{siteContent.cta.secondaryCta.label}</Link>
               </Button>
             </div>

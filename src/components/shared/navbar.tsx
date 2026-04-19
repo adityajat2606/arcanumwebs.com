@@ -41,12 +41,12 @@ const variantClasses = {
     mobile: 'border-t border-slate-200/70 bg-white/95',
   },
   'editorial-bar': {
-    shell: 'border-b border-[#d7c4b3] bg-[#fff7ee]/90 text-[#2f1d16] backdrop-blur-xl',
-    logo: 'rounded-full border border-[#dbc6b6] bg-white shadow-sm',
-    active: 'bg-[#2f1d16] text-[#fff4e4]',
-    idle: 'text-[#72594a] hover:bg-[#f2e5d4] hover:text-[#2f1d16]',
-    cta: 'rounded-full bg-[#2f1d16] text-[#fff4e4] hover:bg-[#452920]',
-    mobile: 'border-t border-[#dbc6b6] bg-[#fff7ee]',
+    shell: 'border-b border-black/[0.06] bg-white/92 text-[#0b0b0b] backdrop-blur-xl shadow-[0_1px_0_rgba(15,23,42,0.04)]',
+    logo: 'rounded-2xl border border-black/[0.08] bg-[#f8faff] shadow-sm',
+    active: 'bg-[#2d5bff] text-white shadow-[0_10px_30px_rgba(45,91,255,0.25)]',
+    idle: 'text-[#5c6370] hover:bg-[#f1f4ff] hover:text-[#0b0b0b]',
+    cta: 'rounded-full bg-[#2d5bff] text-white shadow-[0_12px_32px_rgba(45,91,255,0.28)] hover:bg-[#2448d9]',
+    mobile: 'border-t border-black/[0.06] bg-white',
   },
   'floating-bar': {
     shell: 'border-b border-transparent bg-transparent text-white',
@@ -220,17 +220,28 @@ export function Navbar() {
           </Link>
 
           {isEditorial ? (
-            <div className="hidden min-w-0 flex-1 items-center gap-4 xl:flex">
-              <div className="h-px flex-1 bg-[#d8c8bb]" />
+            <div className="hidden min-w-0 flex-1 items-center justify-center gap-1 xl:flex">
               {primaryNavigation.map((task) => {
                 const isActive = pathname.startsWith(task.route)
                 return (
-                  <Link key={task.key} href={task.route} className={cn('text-sm font-semibold uppercase tracking-[0.18em] transition-colors', isActive ? 'text-[#2f1d16]' : 'text-[#7b6254] hover:text-[#2f1d16]')}>
+                  <Link
+                    key={task.key}
+                    href={task.route}
+                    className={cn(
+                      'rounded-full px-3 py-2 text-sm font-medium transition-colors',
+                      isActive ? 'text-[#0b0b0b]' : 'text-[#5c6370] hover:text-[#0b0b0b]',
+                    )}
+                  >
                     {task.label}
                   </Link>
                 )
               })}
-              <div className="h-px flex-1 bg-[#d8c8bb]" />
+              <Link href="/search" className="rounded-full px-3 py-2 text-sm font-medium text-[#5c6370] transition-colors hover:text-[#0b0b0b]">
+                Search
+              </Link>
+              <Link href="/about" className="rounded-full px-3 py-2 text-sm font-medium text-[#5c6370] transition-colors hover:text-[#0b0b0b]">
+                About
+              </Link>
             </div>
           ) : isFloating ? (
             <div className="hidden min-w-0 flex-1 items-center gap-2 xl:flex">
@@ -291,11 +302,11 @@ export function Navbar() {
             <NavbarAuthControls />
           ) : (
             <div className="hidden items-center gap-2 md:flex">
-              <Button variant="ghost" size="sm" asChild className="rounded-full px-4">
-                <Link href="/login">Sign In</Link>
+              <Button variant="ghost" size="sm" asChild className="rounded-full px-4 text-[#5c6370] hover:text-[#0b0b0b]">
+                <Link href="/login">{isEditorial ? 'Login' : 'Sign In'}</Link>
               </Button>
               <Button size="sm" asChild className={style.cta}>
-                <Link href="/register">{isEditorial ? 'Subscribe' : isUtility ? 'Post Now' : 'Get Started'}</Link>
+                <Link href="/register">{isEditorial ? 'Get Started' : isUtility ? 'Post Now' : 'Get Started'}</Link>
               </Button>
             </div>
           )}
