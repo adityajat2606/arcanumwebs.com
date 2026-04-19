@@ -1,29 +1,75 @@
-﻿import { PageShell } from '@/components/shared/page-shell'
-import { Card, CardContent } from '@/components/ui/card'
+﻿import Link from 'next/link'
+import { PageShell } from '@/components/shared/page-shell'
 
-const sections = [
-  { title: 'Essential Cookies', body: 'Required for authentication and core features.' },
-  { title: 'Analytics Cookies', body: 'Help us understand how the platform is used.' },
-  { title: 'Preference Cookies', body: 'Remember your settings and saved filters.' },
+const rows = [
+  {
+    title: 'Strictly necessary',
+    purpose: 'Authentication, security, load balancing, and remembering consent choices.',
+    duration: 'Session to 12 months',
+    control: 'Cannot be disabled without breaking core functionality.',
+  },
+  {
+    title: 'Functional',
+    purpose: 'Remembering preferences such as theme (if offered) or dismissed banners.',
+    duration: 'Up to 12 months',
+    control: 'Manage via site settings when available; otherwise clear site data in your browser.',
+  },
+  {
+    title: 'Analytics (aggregated)',
+    purpose: 'Understanding which sections readers finish, where errors occur, and how performance varies by device.',
+    duration: 'Up to 24 months (pseudonymous IDs)',
+    control: 'Use browser controls or any opt-out link we provide in the consent layer.',
+  },
 ]
 
 export default function CookiesPage() {
   return (
     <PageShell
-      title="Cookie Policy"
-      description="Details about the cookies we use."
+      eyebrow="Legal"
+      title="Cookie policy"
+      description="Plain-language detail on the cookies and local storage keys we use to keep reading fast, accounts secure, and our editorial roadmap informed."
+      contentClassName="max-w-4xl"
     >
-      <Card className="border-border bg-card">
-        <CardContent className="p-6 space-y-4">
-          <p className="text-xs text-muted-foreground">Last updated: March 16, 2026</p>
-          {sections.map((section) => (
-            <div key={section.title} className="rounded-lg border border-border bg-secondary/40 p-4">
-              <h3 className="text-sm font-semibold text-foreground">{section.title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{section.body}</p>
+      <p className="text-sm leading-relaxed text-[#5c6370]">
+        Cookies are small text files stored on your device. We use them sparingly and pair them with server-side protections where
+        possible. This page should be read together with our{' '}
+        <Link href="/privacy" className="font-semibold text-[#2d5bff] hover:underline">
+          Privacy policy
+        </Link>
+        .
+      </p>
+
+      <div className="mt-10 overflow-hidden rounded-[1.75rem] border border-black/[0.06] bg-white shadow-sm">
+        <div className="grid grid-cols-12 gap-3 border-b border-black/[0.06] bg-[#f8faff] px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-[#5c6370] sm:px-6">
+          <div className="col-span-12 sm:col-span-3">Category</div>
+          <div className="col-span-12 hidden sm:col-span-4 sm:block">Purpose</div>
+          <div className="col-span-12 hidden sm:col-span-2 sm:block">Duration</div>
+          <div className="col-span-12 hidden sm:col-span-3 sm:block">Your control</div>
+        </div>
+        {rows.map((row) => (
+          <div
+            key={row.title}
+            className="grid grid-cols-1 gap-4 border-b border-black/[0.06] px-4 py-5 last:border-b-0 sm:grid-cols-12 sm:items-start sm:px-6"
+          >
+            <div className="sm:col-span-3">
+              <p className="font-semibold text-[#0b0b0b]">{row.title}</p>
             </div>
-          ))}
-        </CardContent>
-      </Card>
+            <p className="text-sm text-[#5c6370] sm:col-span-4">{row.purpose}</p>
+            <p className="text-sm text-[#5c6370] sm:col-span-2">{row.duration}</p>
+            <p className="text-sm text-[#5c6370] sm:col-span-3">{row.control}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-10 rounded-[1.5rem] border border-[#2d5bff]/25 bg-[#2d5bff]/[0.06] p-6">
+        <h2 className="text-lg font-semibold text-[#0b0b0b]">Local storage & similar tech</h2>
+        <p className="mt-3 text-sm leading-relaxed text-[#5c6370]">
+          Some features—like staying signed in—may use browser local storage in addition to cookies. Those values are scoped to this
+          origin and can be cleared from your browser settings at any time.
+        </p>
+      </div>
+
+      <p className="mt-8 text-xs text-[#5c6370]">Last updated: April 18, 2026</p>
     </PageShell>
   )
 }

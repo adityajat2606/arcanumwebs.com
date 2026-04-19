@@ -1,14 +1,16 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { ArrowRight, Bookmark, Building2, Compass, FileText, Globe2, Image as ImageIcon, LayoutGrid, MapPin, ShieldCheck, Tag, User } from 'lucide-react'
+import { ArrowRight, Bookmark, Building2, Compass, FileText, Globe2, Image as ImageIcon, LayoutGrid, MapPin, Search, ShieldCheck, Tag, User } from 'lucide-react'
 import { ContentImage } from '@/components/shared/content-image'
 import { NavbarShell } from '@/components/shared/navbar-shell'
 import { Footer } from '@/components/shared/footer'
 import { SchemaJsonLd } from '@/components/seo/schema-jsonld'
 import { TaskPostCard } from '@/components/shared/task-post-card'
+import { CTASection } from '@/components/home/cta-section'
 import { SITE_CONFIG, type TaskKey } from '@/lib/site-config'
 import { buildPageMetadata } from '@/lib/seo'
-import { fetchTaskPosts } from '@/lib/task-data'
+import { buildPostUrl, fetchTaskPosts } from '@/lib/task-data'
+import { CATEGORY_OPTIONS } from '@/lib/categories'
 import { siteContent } from '@/config/site.content'
 import { getFactoryState } from '@/design/factory/get-factory-state'
 import { getProductKind, type ProductKind } from '@/design/factory/get-product-kind'
@@ -39,6 +41,10 @@ const taskIcons: Record<TaskKey, any> = {
   classified: Tag,
   image: ImageIcon,
   profile: User,
+  social: LayoutGrid,
+  comment: FileText,
+  pdf: FileText,
+  org: Building2,
 }
 
 function resolveTaskKey(value: unknown, fallback: TaskKey): TaskKey {
@@ -99,17 +105,11 @@ function getDirectoryTone(brandPack: string) {
   }
 }
 
-function getEditorialTone() {
-  return {
-    shell: 'bg-[#fbf6ee] text-[#241711]',
-    panel: 'border border-[#dcc8b7] bg-[#fffdfa] shadow-[0_24px_60px_rgba(77,47,27,0.08)]',
-    soft: 'border border-[#e6d6c8] bg-[#fff4e8]',
-    muted: 'text-[#6e5547]',
-    title: 'text-[#241711]',
-    badge: 'bg-[#241711] text-[#fff1e2]',
-    action: 'bg-[#241711] text-[#fff1e2] hover:bg-[#3a241b]',
-    actionAlt: 'border border-[#dcc8b7] bg-transparent text-[#241711] hover:bg-[#f5e7d7]',
-  }
+function formatPostDate(value?: string | null) {
+  if (!value) return ''
+  const d = new Date(value)
+  if (Number.isNaN(d.getTime())) return ''
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
 }
 
 function getVisualTone() {
@@ -268,77 +268,125 @@ function DirectoryHome({ primaryTask, enabledTasks, listingPosts, classifiedPost
   )
 }
 
-function EditorialHome({ primaryTask, articlePosts, supportTasks }: { primaryTask?: EnabledTask; articlePosts: SitePost[]; supportTasks: EnabledTask[] }) {
-  const tone = getEditorialTone()
+function EditorialHome({ primaryTask, articlePosts }: { primaryTask?: EnabledTask; articlePosts: SitePost[] }) {
   const lead = articlePosts[0]
-  const side = articlePosts.slice(1, 5)
+  const gridPosts = articlePosts.slice(1, 10)
+  const leadMeta = lead ? getPostMeta(lead) : { location: '', category: '' }
+  const leadCategory = leadMeta.category || 'Featured'
+  const categoryTabs = [{ name: 'All', slug: 'all' as const }, ...CATEGORY_OPTIONS.slice(0, 5)]
 
   return (
-    <main className={tone.shell}>
-      <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-18">
-        <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
-          <div>
-            <span className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] ${tone.badge}`}>
-              <FileText className="h-3.5 w-3.5" />
-              Reading-first publication
-            </span>
-            <h1 className={`mt-6 max-w-4xl text-5xl font-semibold tracking-[-0.06em] sm:text-6xl ${tone.title}`}>
-              Essays, analysis, and slower reading designed like a publication, not a dashboard.
-            </h1>
-            <p className={`mt-6 max-w-2xl text-base leading-8 ${tone.muted}`}>{SITE_CONFIG.description}</p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link href={primaryTask?.route || '/articles'} className={`inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold ${tone.action}`}>
-                Start reading
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link href="/about" className={`inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold ${tone.actionAlt}`}>
-                About the publication
-              </Link>
-            </div>
-          </div>
-
-          <aside className={`rounded-[2rem] p-6 ${tone.panel}`}>
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] opacity-70">Inside this issue</p>
-            <div className="mt-5 space-y-5">
-              {side.map((post) => (
-                <Link key={post.id} href={`/articles/${post.slug}`} className="block border-b border-black/10 pb-5 last:border-b-0 last:pb-0">
-                  <p className="text-sm font-semibold uppercase tracking-[0.18em] opacity-60">Feature</p>
-                  <h3 className="mt-2 text-xl font-semibold">{post.title}</h3>
-                  <p className={`mt-2 text-sm leading-7 ${tone.muted}`}>{post.summary || 'Long-form perspective with a calmer reading rhythm.'}</p>
-                </Link>
-              ))}
-            </div>
-          </aside>
-        </div>
-
-        {lead ? (
-          <div className={`mt-12 overflow-hidden rounded-[2.5rem] ${tone.panel}`}>
-            <div className="grid lg:grid-cols-[1.05fr_0.95fr]">
-              <div className="relative min-h-[360px] overflow-hidden">
-                <ContentImage src={getPostImage(lead)} alt={lead.title} fill className="object-cover" />
-              </div>
-              <div className="p-8 lg:p-10">
-                <p className="text-xs font-semibold uppercase tracking-[0.24em] opacity-70">Lead story</p>
-                <h2 className="mt-4 text-4xl font-semibold tracking-[-0.04em]">{lead.title}</h2>
-                <p className={`mt-4 text-sm leading-8 ${tone.muted}`}>{lead.summary || 'A more deliberate lead story surface with room for a proper narrative setup.'}</p>
-                <Link href={`/articles/${lead.slug}`} className={`mt-8 inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold ${tone.action}`}>
-                  Read article
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-              </div>
-            </div>
-          </div>
-        ) : null}
-
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
-          {supportTasks.slice(0, 3).map((task) => (
-            <Link key={task.key} href={task.route} className={`rounded-[1.8rem] p-6 ${tone.soft}`}>
-              <h3 className="text-xl font-semibold">{task.label}</h3>
-              <p className={`mt-3 text-sm leading-7 ${tone.muted}`}>{task.description}</p>
-            </Link>
-          ))}
+    <main className="bg-white text-[#0b0b0b]">
+      <section className="mx-auto max-w-3xl px-4 pb-12 pt-16 text-center sm:px-6 lg:px-8 lg:pt-20">
+        <span className="editorial-label mx-auto inline-flex">Publication</span>
+        <h1 className="mt-6 text-balance text-4xl font-semibold leading-[1.08] tracking-tight sm:text-5xl lg:text-[3.15rem]">
+          Insights and trends shaping the future of finance, technology, and markets.
+        </h1>
+        <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-[#5c6370] sm:text-lg">{SITE_CONFIG.description}</p>
+        <div className="mt-9 flex flex-wrap justify-center gap-3">
+          <Link
+            href={primaryTask?.route || '/articles'}
+            className="inline-flex items-center gap-2 rounded-full bg-[#2d5bff] px-6 py-3 text-sm font-semibold text-white shadow-[0_14px_40px_rgba(45,91,255,0.35)] transition hover:-translate-y-0.5 hover:bg-[#2448d9]"
+          >
+            Start reading
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+          <Link
+            href="/search"
+            className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-6 py-3 text-sm font-semibold text-[#0b0b0b] transition hover:-translate-y-0.5 hover:border-black/20 hover:shadow-md"
+          >
+            <Search className="h-4 w-4 opacity-70" />
+            Search articles
+          </Link>
         </div>
       </section>
+
+      {lead ? (
+        <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6 lg:px-8">
+          <div className="grid items-center gap-10 rounded-[2rem] border border-black/[0.06] bg-white p-5 shadow-[0_28px_90px_rgba(15,23,42,0.08)] sm:p-8 lg:grid-cols-2 lg:gap-12">
+            <Link href={`/articles/${lead.slug}`} className="group relative block min-h-[220px] overflow-hidden rounded-[1.75rem] sm:min-h-[320px] lg:aspect-[16/11] lg:min-h-0">
+              <ContentImage src={getPostImage(lead)} alt={lead.title} fill className="object-cover transition duration-500 group-hover:scale-[1.03]" />
+            </Link>
+            <div className="text-left">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#2d5bff]">{leadCategory}</p>
+              <h2 className="mt-3 text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">{lead.title}</h2>
+              <p className="mt-4 text-sm leading-7 text-[#5c6370] sm:text-base sm:leading-8">
+                {lead.summary || 'Long-form analysis with clear structure, data-backed framing, and a calmer reading rhythm.'}
+              </p>
+              <div className="mt-8 flex flex-wrap items-center gap-4 border-t border-black/[0.06] pt-6 text-sm text-[#5c6370]">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#2d5bff]/10 text-xs font-bold uppercase text-[#2d5bff]">
+                    {(lead.authorName || 'Editor').slice(0, 2)}
+                  </div>
+                  <div>
+                    <p className="font-semibold text-[#0b0b0b]">{lead.authorName || 'Editorial team'}</p>
+                    <p className="text-xs">{formatPostDate(lead.publishedAt || lead.createdAt)}</p>
+                  </div>
+                </div>
+              </div>
+              <Link
+                href={`/articles/${lead.slug}`}
+                className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#2d5bff] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#2448d9]"
+              >
+                Read article
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      <section className="mx-auto max-w-6xl px-4 pb-20 sm:px-6 lg:px-8">
+        <div className="text-center">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#2d5bff]">Articles</p>
+          <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-[2rem]">Check out our newest articles</h2>
+        </div>
+
+        <div className="mt-10 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex flex-wrap justify-center gap-2 lg:justify-start">
+            {categoryTabs.map((cat) => {
+              const href = cat.slug === 'all' ? '/articles' : `/articles?category=${cat.slug}`
+              return (
+                <Link
+                  key={cat.slug}
+                  href={href}
+                  className="rounded-full border border-black/[0.08] bg-white px-4 py-2 text-xs font-semibold uppercase tracking-wide text-[#5c6370] transition hover:border-[#2d5bff]/40 hover:text-[#0b0b0b]"
+                >
+                  {cat.name}
+                </Link>
+              )
+            })}
+          </div>
+          <Link
+            href="/search"
+            className="flex w-full items-center gap-3 rounded-2xl border border-black/[0.08] bg-[#f8faff] px-4 py-3 text-sm text-[#5c6370] transition hover:border-[#2d5bff]/30 lg:max-w-sm"
+          >
+            <Search className="h-4 w-4 shrink-0 text-[#2d5bff]" />
+            <span>Search titles, topics, and tags…</span>
+          </Link>
+        </div>
+
+        {gridPosts.length ? (
+          <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {gridPosts.map((post) => (
+              <TaskPostCard key={post.id} post={post} href={buildPostUrl('article', post.slug)} taskKey="article" />
+            ))}
+          </div>
+        ) : (
+          <p className="mt-12 rounded-2xl border border-dashed border-black/10 bg-[#fafbff] py-12 text-center text-sm text-[#5c6370]">
+            More stories are on the way. Browse the full archive anytime.
+          </p>
+        )}
+
+        <div className="mt-10 flex justify-center">
+          <Link href="/articles" className="inline-flex items-center gap-2 text-sm font-semibold text-[#2d5bff] hover:underline">
+            View all articles
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+      </section>
+
+      <CTASection />
     </main>
   )
 }
@@ -490,7 +538,6 @@ export default async function HomePage() {
   ).filter(({ posts }) => posts.length)
 
   const primaryTask = enabledTasks.find((task) => task.key === recipe.primaryTask) || enabledTasks[0]
-  const supportTasks = enabledTasks.filter((task) => task.key !== primaryTask?.key)
   const listingPosts = taskFeed.find(({ task }) => task.key === 'listing')?.posts || []
   const classifiedPosts = taskFeed.find(({ task }) => task.key === 'classified')?.posts || []
   const articlePosts = taskFeed.find(({ task }) => task.key === 'article')?.posts || []
@@ -535,7 +582,7 @@ export default async function HomePage() {
         />
       ) : null}
       {productKind === 'editorial' ? (
-        <EditorialHome primaryTask={primaryTask} articlePosts={articlePosts} supportTasks={supportTasks} />
+        <EditorialHome primaryTask={primaryTask} articlePosts={articlePosts} />
       ) : null}
       {productKind === 'visual' ? (
         <VisualHome primaryTask={primaryTask} imagePosts={imagePosts} profilePosts={profilePosts} articlePosts={articlePosts} />

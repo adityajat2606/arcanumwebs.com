@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
+import { Inter } from 'next/font/google'
 
 import './globals.css'
 
@@ -13,6 +14,12 @@ export async function generateMetadata(): Promise<Metadata> {
   return buildSiteMetadata()
 }
 
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+})
+
 export default function RootLayout({ children }: { children: ReactNode }) {
   const { recipe, brandPack } = getFactoryState()
 
@@ -21,7 +28,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body
         data-site-shell={recipe.homeLayout}
         data-motion-pack={recipe.motionPack}
-        className={`${brandPack.bodyClassName} ${brandPack.fontClassName} ${brandPack.paletteClassName}`}
+        className={`${inter.variable} ${brandPack.bodyClassName} ${brandPack.fontClassName} ${brandPack.paletteClassName}`}
       >
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
           <AuthProvider>
