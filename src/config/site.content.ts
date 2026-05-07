@@ -2,7 +2,7 @@ import type { TaskKey } from '@/lib/site-config'
 
 export const siteContent = {
   navbar: {
-    tagline: 'Finance & markets publication',
+    tagline: '',
   },
   footer: {
     tagline: 'Independent editorial on finance and technology',
@@ -208,7 +208,7 @@ export const taskIntroCopy: Record<
     paragraphs: [
       'Short updates add quick signals that keep activity flowing across the platform.',
       'They work well with stories, listings, and resources by helping visitors move from brief updates into deeper content.',
-      'Use these posts as lightweight entry points into the broader site experience.',
+      'Use these posts as lightweight entry points the broader site experience.',
     ],
     links: [
       { label: 'Open listings', href: '/listings' },

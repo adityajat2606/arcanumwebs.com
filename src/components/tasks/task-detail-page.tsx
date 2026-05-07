@@ -267,44 +267,95 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
         >
           <div className={cn(isClassified ? "space-y-8" : "")}>
             {isArticle ? (
-              <div className="mx-auto w-full max-w-4xl space-y-6">
-                <h1 className="text-4xl font-semibold leading-tight text-foreground">
-                  {post.title}
-                </h1>
-                <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
-                  <span>By {articleAuthor}</span>
-                  {articleDate ? <span>{articleDate}</span> : null}
-                  <Badge variant="secondary" className="inline-flex items-center gap-1">
-                    <Tag className="h-3.5 w-3.5" />
-                    {category}
-                  </Badge>
+              <div className="w-full">
+                {/* Hero Section with Image and Title */}
+                <div className="relative mb-12 overflow-hidden rounded-3xl bg-gradient-to-br from-slate-50 to-white shadow-2xl">
+                  {images[0] ? (
+                    <div className="relative h-[400px] lg:h-[500px]">
+                      <ContentImage
+                        src={images[0]}
+                        alt={`${post.title} featured image`}
+                        fill
+                        className="object-cover"
+                        intrinsicWidth={1600}
+                        intrinsicHeight={900}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+                      
+                      {/* Floating Content Overlay */}
+                      <div className="absolute bottom-0 left-0 right-0 p-8 lg:p-12">
+                        <div className="max-w-4xl">
+                          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/20 backdrop-blur-sm px-4 py-2 text-white">
+                            <Tag className="h-4 w-4" />
+                            <span className="text-sm font-semibold">{category}</span>
+                          </div>
+                          <h1 className="mb-4 text-3xl lg:text-5xl font-bold leading-tight text-white drop-shadow-lg">
+                            {post.title}
+                          </h1>
+                          <div className="flex flex-wrap items-center gap-4 text-white/90">
+                            <div className="flex items-center gap-2">
+                              <div className="h-10 w-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                                <span className="text-sm font-bold">
+                                  {(articleAuthor || 'Ed').slice(0, 2).toUpperCase()}
+                                </span>
+                              </div>
+                              <span className="font-medium">{articleAuthor}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="p-12 lg:p-16">
+                      <div className="max-w-4xl">
+                        <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 px-4 py-2 text-white">
+                          <Tag className="h-4 w-4" />
+                          <span className="text-sm font-semibold">{category}</span>
+                        </div>
+                        <h1 className="mb-6 text-4xl lg:text-6xl font-bold leading-tight bg-gradient-to-r from-slate-900 to-slate-600 bg-clip-text text-transparent">
+                          {post.title}
+                        </h1>
+                        <div className="flex items-center gap-4 text-slate-600">
+                          <div className="flex items-center gap-2">
+                            <div className="h-12 w-12 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
+                              <span className="text-sm font-bold text-white">
+                                {(articleAuthor || 'Ed').slice(0, 2).toUpperCase()}
+                              </span>
+                            </div>
+                            <span className="font-medium text-slate-700">{articleAuthor}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
+
+                {/* Tags Section */}
                 {postTags.length ? (
-                  <div className="flex flex-wrap gap-2">
-                    {postTags.map((tag) => (
-                      <Badge key={tag} variant="outline">
-                        {tag}
-                      </Badge>
-                    ))}
+                  <div className="mb-8 max-w-4xl">
+                    <div className="flex flex-wrap gap-2">
+                      {postTags.map((tag) => (
+                        <Badge key={tag} variant="outline" className="px-3 py-1.5 text-sm border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 transition-colors">
+                          #{tag}
+                        </Badge>
+                      ))}
+                    </div>
                   </div>
                 ) : null}
-                {articleSummary ? (
-                  <p className="text-base leading-7 text-muted-foreground">{articleSummary}</p>
-                ) : null}
-                {images[0] ? (
-                  <div className="relative aspect-[16/9] w-full overflow-hidden rounded-3xl border border-border bg-muted">
-                    <ContentImage
-                      src={images[0]}
-                      alt={`${post.title} featured image`}
-                      fill
-                      className="object-cover"
-                      intrinsicWidth={1600}
-                      intrinsicHeight={900}
-                    />
+
+                {/* Content Section */}
+                <div className="max-w-4xl">
+                  <div className="rounded-2xl border border-slate-200 bg-white p-8 lg:p-12 shadow-xl">
+                    <RichContent html={articleHtml} className="prose prose-lg prose-slate max-w-none prose-headings:font-bold prose-headings:text-slate-900 prose-p:text-slate-700 prose-p:leading-8 prose-p:my-6 prose-h2:my-8 prose-h3:my-6 prose-h2:text-2xl prose-h3:text-xl prose-ul:my-6 prose-li:text-slate-700 prose-strong:text-slate-900 prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline" />
                   </div>
-                ) : null}
-                <RichContent html={articleHtml} className="leading-8 prose-p:my-6 prose-h2:my-8 prose-h3:my-6 prose-ul:my-6" />
-                <ArticleComments slug={post.slug} />
+                </div>
+
+                {/* Comments Section */}
+                <div className="mt-12 max-w-4xl">
+                  <div className="rounded-2xl border border-slate-200 bg-white p-8 lg:p-12 shadow-xl">
+                    <ArticleComments slug={post.slug} />
+                  </div>
+                </div>
               </div>
             ) : null}
 

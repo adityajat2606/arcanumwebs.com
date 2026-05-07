@@ -42,7 +42,7 @@ export default function TermsPage() {
       contentClassName="max-w-3xl"
     >
       <p className="rounded-2xl border border-black/[0.06] bg-[#f8faff] px-5 py-4 text-sm text-[#5c6370]">
-        <span className="font-semibold text-[#0b0b0b]">Last updated:</span> April 18, 2026 · For privacy-specific details, see our{' '}
+        <span className="font-semibold text-[#0b0b0b]">Last updated:</span> For privacy-specific details, see our{' '}
         <Link href="/privacy" className="font-semibold text-[#2d5bff] hover:underline">
           Privacy policy
         </Link>

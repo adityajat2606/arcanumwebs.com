@@ -80,7 +80,6 @@ export default function PressPage() {
             >
               <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#2d5bff]">{item.outlet}</div>
               <p className="mt-2 text-sm font-medium leading-snug text-[#0b0b0b]">{item.headline}</p>
-              <p className="mt-2 text-xs text-[#5c6370]">{item.date}</p>
               <button
                 type="button"
                 className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-[#2d5bff] hover:underline"

@@ -53,8 +53,7 @@ export default function StatusPage() {
               className="rounded-[1.5rem] border border-black/[0.06] bg-[#f8faff] px-5 py-4 sm:flex sm:items-start sm:justify-between sm:gap-6"
             >
               <div>
-                <p className="text-xs font-semibold uppercase tracking-wide text-[#2d5bff]">{incident.date}</p>
-                <p className="mt-2 font-medium text-[#0b0b0b]">{incident.title}</p>
+                <p className="font-medium text-[#0b0b0b]">{incident.title}</p>
                 <p className="mt-2 text-sm text-[#5c6370]">{incident.detail}</p>
               </div>
               <span className="mt-3 inline-flex shrink-0 self-start rounded-full border border-black/10 bg-white px-3 py-1 text-xs font-semibold text-[#5c6370] sm:mt-2">

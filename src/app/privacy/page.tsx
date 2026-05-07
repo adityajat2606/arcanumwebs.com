@@ -41,7 +41,7 @@ export default function PrivacyPage() {
       contentClassName="max-w-3xl"
     >
       <p className="rounded-2xl border border-black/[0.06] bg-[#f8faff] px-5 py-4 text-sm text-[#5c6370]">
-        <span className="font-semibold text-[#0b0b0b]">Last updated:</span> April 18, 2026 · This page is written for a general audience; your counsel should review any bespoke commitments.
+        <span className="font-semibold text-[#0b0b0b]">Last updated:</span> This page is written for a general audience; your counsel should review any bespoke commitments.
       </p>
       <div className="mt-10 space-y-8">
         {sections.map((section, i) => (
