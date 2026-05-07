@@ -56,28 +56,28 @@ const getImageUrl = (post: SitePost, content: ListingContent) => {
 
 const cardStyles = {
   'listing-elevated': {
-    frame: 'rounded-[1.9rem] border border-slate-200 bg-white shadow-[0_20px_60px_rgba(15,23,42,0.08)] hover:-translate-y-1 hover:shadow-[0_28px_75px_rgba(15,23,42,0.14)]',
+    frame: 'relative overflow-hidden bg-gradient-to-br from-slate-50 to-white border-0 shadow-[0_8px_32px_rgba(15,23,42,0.12)] hover:shadow-[0_20px_60px_rgba(15,23,42,0.18)] hover:-translate-y-2 transition-all duration-500',
     muted: 'text-slate-600',
     title: 'text-slate-950',
-    badge: 'bg-slate-950 text-white',
+    badge: 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white',
   },
   'editorial-feature': {
-    frame: 'rounded-2xl border border-black/[0.06] bg-white shadow-[0_18px_50px_rgba(15,23,42,0.07)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_26px_70px_rgba(45,91,255,0.14)]',
+    frame: 'relative overflow-hidden bg-white border-0 shadow-[0_4px_24px_rgba(15,23,42,0.08)] hover:shadow-[0_12px_48px_rgba(45,91,255,0.15)] hover:-translate-y-3 transition-all duration-500 group',
     muted: 'text-[#5c6370]',
     title: 'text-[#0b0b0b]',
-    badge: 'bg-[#2d5bff] text-white',
+    badge: 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white',
   },
   'studio-panel': {
-    frame: 'rounded-[1.9rem] border border-white/10 bg-[linear-gradient(180deg,rgba(7,17,31,0.96),rgba(12,23,43,0.96))] text-white shadow-[0_24px_80px_rgba(15,23,42,0.35)] hover:-translate-y-1 hover:shadow-[0_30px_90px_rgba(15,23,42,0.42)]',
+    frame: 'relative overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900 border-0 shadow-[0_16px_64px_rgba(15,23,42,0.4)] hover:shadow-[0_24px_80px_rgba(139,92,246,0.3)] hover:-translate-y-2 transition-all duration-500',
     muted: 'text-slate-300',
     title: 'text-white',
-    badge: 'bg-[#8df0c8] text-[#07111f]',
+    badge: 'bg-gradient-to-r from-emerald-400 to-cyan-400 text-slate-900',
   },
   'catalog-grid': {
-    frame: 'rounded-[1.8rem] border border-[rgba(67,78,41,0.14)] bg-[#f8faf1] shadow-[0_18px_58px_rgba(55,65,31,0.1)] hover:-translate-y-1 hover:shadow-[0_28px_70px_rgba(55,65,31,0.14)]',
+    frame: 'relative overflow-hidden bg-gradient-to-br from-emerald-50 via-white to-lime-50 border-0 shadow-[0_6px_28px_rgba(34,197,94,0.1)] hover:shadow-[0_16px_56px_rgba(34,197,94,0.2)] hover:-translate-y-2 transition-all duration-500',
     muted: 'text-[#5b664c]',
     title: 'text-[#1f2617]',
-    badge: 'bg-[#1f2617] text-[#edf5dc]',
+    badge: 'bg-gradient-to-r from-emerald-600 to-green-600 text-white',
   },
 } as const
 
@@ -194,40 +194,99 @@ export function TaskPostCard({
       : ''
 
   return (
-    <Link href={href} className={`group flex h-full flex-col overflow-hidden transition duration-300 ${visualVariant.frame}`}>
-      <div className={`relative ${imageAspect} overflow-hidden bg-[#eef1f8]`}>
-        <ContentImage src={image} alt={altText} fill sizes={imageSizes} quality={75} className="object-cover transition-transform duration-500 group-hover:scale-[1.04]" intrinsicWidth={960} intrinsicHeight={720} />
-        {variant === 'article' ? (
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-70" />
-        ) : (
-          <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent opacity-80" />
-        )}
-        <span className={`absolute left-4 top-4 inline-flex items-center gap-1 rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] ${visualVariant.badge}`}>
-          <Tag className="h-3.5 w-3.5" />
-          {category}
-        </span>
-        {variant === 'pdf' && <span className="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-white/88 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-950 shadow"><FileText className="h-3.5 w-3.5" />PDF</span>}
-      </div>
-      <div className={`flex flex-1 flex-col p-5 ${compact ? 'py-4' : ''}`}>
-        <h3 className={`line-clamp-2 font-semibold leading-snug ${variant === 'article' ? 'text-[1.25rem]' : 'text-lg'} ${visualVariant.title}`}>{post.title}</h3>
-        <p className={`mt-3 text-sm leading-7 ${variant === 'article' ? 'line-clamp-3' : 'line-clamp-3'} ${visualVariant.muted}`}>{getExcerpt(content.description || post.summary) || 'Explore this post.'}</p>
-        {variant === 'article' ? (
-          <div className="mt-auto flex items-center justify-between gap-3 border-t border-black/[0.06] pt-4 text-xs text-[#5c6370]">
-            <span className="inline-flex items-center gap-2 font-medium text-[#0b0b0b]">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#2d5bff]/10 text-[11px] font-bold uppercase text-[#2d5bff]">
-                {(post.authorName || 'Ed').slice(0, 2)}
-              </span>
-              {post.authorName || 'Editorial'}
+    <div className={`group flex min-h-[480px] w-full max-w-xl overflow-hidden transition-all duration-500 ${visualVariant.frame}`}>
+      {/* Diagonal decorative element */}
+      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-white/20 to-transparent transform translate-x-8 -translate-y-8 rotate-45" />
+      
+      {/* Image section with reduced height */}
+      <div className={`relative aspect-[4/3] overflow-hidden`}>
+        <ContentImage 
+          src={image} 
+          alt={altText} 
+          fill 
+          sizes={imageSizes} 
+          quality={75} 
+          className="object-cover transition-all duration-700 group-hover:scale-[1.08] group-hover:brightness-110" 
+          intrinsicWidth={960} 
+          intrinsicHeight={720} 
+        />
+        
+        {/* Enhanced gradient overlays */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-90" />
+        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/40 opacity-60" />
+        
+        {/* Floating badges */}
+        <div className="absolute top-4 left-4 z-10">
+          <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] backdrop-blur-sm ${visualVariant.badge} shadow-lg`}>
+            <Tag className="h-3 w-3" />
+            {category}
+          </span>
+        </div>
+        
+        {variant === 'pdf' && (
+          <div className="absolute top-4 right-4 z-10">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/90 backdrop-blur-sm px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-900 shadow-lg">
+              <FileText className="h-3 w-3" />
+              PDF
             </span>
-            {articleDate ? <span>{articleDate}</span> : null}
-          </div>
-        ) : (
-          <div className="mt-auto pt-4">
-            {content.location && <div className={`inline-flex items-center gap-1 text-xs ${visualVariant.muted}`}><MapPin className="h-3.5 w-3.5" />{content.location}</div>}
-            {content.email && <div className={`mt-2 inline-flex items-center gap-1 text-xs ${visualVariant.muted}`}><Mail className="h-3.5 w-3.5" />{content.email}</div>}
           </div>
         )}
       </div>
-    </Link>
+      
+      {/* Content section with more space for title */}
+      <div className={`relative flex flex-1 flex-col p-6 bg-gradient-to-b from-transparent to-white/50`}>
+        {/* Decorative line */}
+        <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-current/20 to-transparent" />
+        
+        {/* Title with full display and no truncation */}
+        <div className="flex-1">
+          <h3 className={`font-bold leading-snug text-center ${variant === 'article' ? 'text-[1.15rem] tracking-[-0.01em]' : 'text-[1rem] tracking-[-0.01em]'} ${visualVariant.title} transition-transform duration-300`}>
+            {post.title}
+          </h3>
+        </div>
+        
+        {/* Footer section with button */}
+        <div className="mt-4 space-y-3">
+          {variant === 'article' ? (
+            <div className="flex items-center justify-between">
+              <span className="inline-flex items-center gap-3 font-medium">
+                <span className="relative flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-current/10 to-current/5 text-[10px] font-bold uppercase shadow-inner">
+                  {(post.authorName || 'Ed').slice(0, 2)}
+                </span>
+                <span className={`text-xs ${visualVariant.title}`}>{post.authorName || 'Editorial'}</span>
+              </span>
+            </div>
+          ) : (
+            <div className="space-y-1">
+              {content.location && (
+                <div className={`inline-flex items-center gap-2 text-xs ${visualVariant.muted}`}>
+                  <MapPin className="h-3 w-3" />
+                  {content.location}
+                </div>
+              )}
+              {content.email && (
+                <div className={`inline-flex items-center gap-2 text-xs ${visualVariant.muted}`}>
+                  <Mail className="h-3 w-3" />
+                  {content.email}
+                </div>
+              )}
+            </div>
+          )}
+          
+          {/* Prominent action button */}
+          <Link 
+            href={href}
+            className={`inline-flex items-center justify-center gap-2 w-full rounded-full px-4 py-2.5 text-xs font-semibold transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 ${
+              variant === 'article' 
+                ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg hover:shadow-xl hover:from-blue-700 hover:to-indigo-700' 
+                : 'bg-gradient-to-r from-violet-600 to-purple-600 text-white shadow-lg hover:shadow-xl hover:from-violet-700 hover:to-purple-700'
+            }`}
+          >
+            {variant === 'article' ? 'Read Article' : variant === 'listing' ? 'View Details' : variant === 'classified' ? 'View Offer' : 'Explore'}
+            <ArrowUpRight className="h-3 w-3" />
+          </Link>
+        </div>
+      </div>
+    </div>
   )
 }

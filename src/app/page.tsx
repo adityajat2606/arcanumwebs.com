@@ -320,7 +320,6 @@ function EditorialHome({ primaryTask, articlePosts }: { primaryTask?: EnabledTas
                   </div>
                   <div>
                     <p className="font-semibold text-[#0b0b0b]">{lead.authorName || 'Editorial team'}</p>
-                    <p className="text-xs">{formatPostDate(lead.publishedAt || lead.createdAt)}</p>
                   </div>
                 </div>
               </div>
@@ -367,7 +366,7 @@ function EditorialHome({ primaryTask, articlePosts }: { primaryTask?: EnabledTas
         </div>
 
         {gridPosts.length ? (
-          <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-12 grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3">
             {gridPosts.map((post) => (
               <TaskPostCard key={post.id} post={post} href={buildPostUrl('article', post.slug)} taskKey="article" />
             ))}
