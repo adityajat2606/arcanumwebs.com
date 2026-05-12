@@ -1,137 +1,56 @@
-import Link from 'next/link'
-import { Clock, FileText, Mail, MapPin, MessageSquare, Sparkles } from 'lucide-react'
-import { NavbarShell } from '@/components/shared/navbar-shell'
-import { Footer } from '@/components/shared/footer'
-import { ContactForm } from '@/components/contact/contact-form'
-import { SITE_CONFIG } from '@/lib/site-config'
-import { CONTACT_PAGE_OVERRIDE_ENABLED, ContactPageOverride } from '@/overrides/contact-page'
+import { Mail, MessageSquareText, ShieldCheck } from 'lucide-react';
 
-const lanes = [
-  {
-    icon: FileText,
-    title: 'Editorial & pitches',
-    body: 'Long-form ideas, corrections, expert commentary, and data partnerships that strengthen finance and technology coverage.',
-  },
-  {
-    icon: Mail,
-    title: 'Press & syndication',
-    body: 'Media requests, reprint permissions, logo use, and co-branded research programs.',
-  },
-  {
-    icon: MessageSquare,
-    title: 'Readers & accounts',
-    body: 'Newsletters, saved reading, accessibility, or anything that gets in the way of finishing a story.',
-  },
-]
+import { ContactLeadForm } from '@/components/shared/contact-lead-form';
+import { Footer } from '@/components/shared/footer';
+import { NavbarShell } from '@/components/shared/navbar-shell';
 
-const expectations = [
-  { label: 'First reply', value: 'Within 2 business days' },
-  { label: 'Editorial review', value: 'Pitch queue reviewed weekly' },
-  { label: 'Offices', value: 'Remote-first · US / EU time zones' },
-]
+const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'Arcanum Webs';
+
+const contactHighlights = [
+  { icon: Mail, title: 'Direct response', copy: 'Your message is saved securely and routed to the right team.' },
+  { icon: MessageSquareText, title: 'Clear details', copy: 'Share your requirement, question, or collaboration idea in one place.' },
+  { icon: ShieldCheck, title: 'Reliable follow-up', copy: 'We keep the request record so every conversation stays traceable.' },
+];
 
 export default function ContactPage() {
-  if (CONTACT_PAGE_OVERRIDE_ENABLED) {
-    return <ContactPageOverride />
-  }
-
   return (
-    <div className="min-h-screen bg-white text-[#0b0b0b]">
+    <div className="min-h-screen bg-[#f7f1e8] text-stone-950">
       <NavbarShell />
       <main>
-        <section className="border-b border-black/[0.06] bg-[linear-gradient(180deg,#ffffff_0%,#f4f7ff_100%)]">
-          <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#2d5bff]">Contact</p>
-            <h1 className="mt-4 max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl">Let’s route your note to the right desk</h1>
-            <p className="mt-5 max-w-2xl text-base leading-relaxed text-[#5c6370] sm:text-lg">
-              Tell us whether you are pitching a story, coordinating press, or fixing a reader experience issue—we reply faster when the
-              subject line matches how we work.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link
-                href="/help"
-                className="inline-flex items-center rounded-full border border-black/[0.08] bg-white px-5 py-2.5 text-sm font-semibold text-[#0b0b0b] transition hover:border-[#2d5bff]/35 hover:shadow-md"
-              >
-                Help center
-              </Link>
-              <Link
-                href="/press"
-                className="inline-flex items-center rounded-full border border-black/[0.08] bg-white px-5 py-2.5 text-sm font-semibold text-[#0b0b0b] transition hover:border-[#2d5bff]/35 hover:shadow-md"
-              >
-                Press kit
-              </Link>
-            </div>
-          </div>
-        </section>
+        <section className="relative overflow-hidden px-6 py-20 md:px-10 lg:px-16">
+          <div className="absolute left-[-10%] top-10 h-72 w-72 rounded-full bg-amber-200/40 blur-3xl" />
+          <div className="absolute bottom-0 right-[-8%] h-80 w-80 rounded-full bg-stone-300/50 blur-3xl" />
 
-        <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
-          <div className="grid gap-12 lg:grid-cols-[1fr_1.02fr] lg:items-start">
-            <div className="space-y-6">
-              <div className="rounded-[1.75rem] border border-[#2d5bff]/20 bg-[#2d5bff]/[0.06] p-6 sm:p-8">
-                <div className="flex items-start gap-3">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-[#2d5bff] shadow-sm">
-                    <Clock className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <h2 className="text-lg font-semibold text-[#0b0b0b]">What to expect</h2>
-                    <p className="mt-2 text-sm leading-relaxed text-[#5c6370]">
-                      We read every message. If you need an urgent correction on a live article, put <span className="font-semibold text-[#0b0b0b]">URGENT correction</span> in the topic field.
-                    </p>
-                    <dl className="mt-6 space-y-4">
-                      {expectations.map((row) => (
-                        <div key={row.label} className="flex items-baseline justify-between gap-4 border-t border-black/[0.06] pt-4 first:border-t-0 first:pt-0">
-                          <dt className="text-xs font-semibold uppercase tracking-wide text-[#5c6370]">{row.label}</dt>
-                          <dd className="text-sm font-medium text-[#0b0b0b]">{row.value}</dd>
-                        </div>
-                      ))}
-                    </dl>
-                  </div>
-                </div>
-              </div>
+          <div className="relative mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+            <div>
+              <p className="text-sm font-black uppercase tracking-[0.35em] text-stone-500">Contact</p>
+              <h1 className="mt-5 max-w-3xl text-5xl font-black leading-[0.95] tracking-[-0.06em] text-stone-950 md:text-7xl">
+                Let&apos;s talk about your next move.
+              </h1>
+              <p className="mt-6 max-w-2xl text-lg leading-8 text-stone-700">
+                Use this form to reach {siteName}. Your request will be recorded and shared with the support team for follow-up.
+              </p>
 
-              <div className="space-y-4">
-                {lanes.map((lane) => (
-                  <div
-                    key={lane.title}
-                    className="rounded-[1.5rem] border border-black/[0.06] bg-[#f8faff] p-5 transition hover:-translate-y-0.5 hover:border-[#2d5bff]/25 hover:shadow-[0_16px_48px_rgba(45,91,255,0.1)] sm:p-6"
-                  >
-                    <div className="flex items-start gap-4">
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-[#2d5bff] shadow-sm">
-                        <lane.icon className="h-5 w-5" />
-                      </div>
-                      <div>
-                        <h2 className="text-lg font-semibold text-[#0b0b0b]">{lane.title}</h2>
-                        <p className="mt-2 text-sm leading-relaxed text-[#5c6370]">{lane.body}</p>
-                      </div>
+              <div className="mt-8 grid gap-4">
+                {contactHighlights.map((item) => (
+                  <div key={item.title} className="flex gap-4 rounded-3xl border border-stone-200 bg-white/60 p-5 shadow-sm">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-stone-950 text-white">
+                      <item.icon className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <h2 className="text-base font-black text-stone-950">{item.title}</h2>
+                      <p className="mt-1 text-sm leading-6 text-stone-600">{item.copy}</p>
                     </div>
                   </div>
                 ))}
               </div>
-
-              <div className="flex flex-wrap items-center gap-4 rounded-2xl border border-dashed border-black/10 bg-white px-5 py-4 text-sm text-[#5c6370]">
-                <MapPin className="h-4 w-4 shrink-0 text-[#2d5bff]" />
-                <span>
-                  Mailing address and phone routing are shared after we confirm your request—avoid posting PII in the first message when
-                  possible.
-                </span>
-              </div>
             </div>
 
-            <div className="rounded-[2rem] border border-black/[0.08] bg-white p-6 shadow-[0_24px_80px_rgba(15,23,42,0.08)] sm:p-8 lg:p-10">
-              <div className="flex items-center gap-2">
-                <Sparkles className="h-5 w-5 text-[#2d5bff]" />
-                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#2d5bff]">Write to {SITE_CONFIG.name}</p>
-              </div>
-              <h2 className="mt-3 text-2xl font-semibold tracking-tight text-[#0b0b0b]">Send a message</h2>
-              <p className="mt-2 text-sm leading-relaxed text-[#5c6370]">
-                The more context you share—URLs, publish dates, and desired outcomes—the faster we can triage.
-              </p>
-              <ContactForm />
-            </div>
+            <ContactLeadForm />
           </div>
         </section>
       </main>
       <Footer />
     </div>
-  )
+  );
 }
