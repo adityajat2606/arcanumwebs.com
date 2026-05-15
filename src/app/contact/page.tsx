@@ -55,12 +55,7 @@ export default function ContactPage() {
               >
                 Help center
               </Link>
-              <Link
-                href="/press"
-                className="inline-flex items-center rounded-full border border-black/[0.08] bg-white px-5 py-2.5 text-sm font-semibold text-[#0b0b0b] transition hover:border-[#2d5bff]/35 hover:shadow-md"
-              >
-                Press kit
-              </Link>
+              
             </div>
           </div>
         </section>
@@ -68,27 +63,7 @@ export default function ContactPage() {
         <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
           <div className="grid gap-12 lg:grid-cols-[1fr_1.02fr] lg:items-start">
             <div className="space-y-6">
-              <div className="rounded-[1.75rem] border border-[#2d5bff]/20 bg-[#2d5bff]/[0.06] p-6 sm:p-8">
-                <div className="flex items-start gap-3">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-[#2d5bff] shadow-sm">
-                    <Clock className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <h2 className="text-lg font-semibold text-[#0b0b0b]">What to expect</h2>
-                    <p className="mt-2 text-sm leading-relaxed text-[#5c6370]">
-                      We read every message. If you need an urgent correction on a live article, put <span className="font-semibold text-[#0b0b0b]">URGENT correction</span> in the topic field.
-                    </p>
-                    <dl className="mt-6 space-y-4">
-                      {expectations.map((row) => (
-                        <div key={row.label} className="flex items-baseline justify-between gap-4 border-t border-black/[0.06] pt-4 first:border-t-0 first:pt-0">
-                          <dt className="text-xs font-semibold uppercase tracking-wide text-[#5c6370]">{row.label}</dt>
-                          <dd className="text-sm font-medium text-[#0b0b0b]">{row.value}</dd>
-                        </div>
-                      ))}
-                    </dl>
-                  </div>
-                </div>
-              </div>
+              
 
               <div className="space-y-4">
                 {lanes.map((lane) => (

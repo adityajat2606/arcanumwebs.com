@@ -61,13 +61,7 @@ export default function CookiesPage() {
         ))}
       </div>
 
-      <div className="mt-10 rounded-[1.5rem] border border-[#2d5bff]/25 bg-[#2d5bff]/[0.06] p-6">
-        <h2 className="text-lg font-semibold text-[#0b0b0b]">Local storage & similar tech</h2>
-        <p className="mt-3 text-sm leading-relaxed text-[#5c6370]">
-          Some features—like staying signed in—may use browser local storage in addition to cookies. Those values are scoped to this
-          origin and can be cleared from your browser settings at any time.
-        </p>
-      </div>
+    
 
       <p className="mt-8 text-xs text-[#5c6370]">Last updated: April 18, 2026</p>
     </PageShell>

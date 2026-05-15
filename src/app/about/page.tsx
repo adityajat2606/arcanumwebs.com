@@ -37,9 +37,7 @@ export default function AboutPage() {
       description="We publish finance and technology analysis for readers who want signal over noise—structured like a magazine, delivered on the open web."
       actions={
         <>
-          <Button variant="outline" className="rounded-full border-black/10 bg-white" asChild>
-            <Link href="/team">Meet the team</Link>
-          </Button>
+        
           <Button className="rounded-full bg-[#2d5bff] px-6 text-white shadow-[0_12px_32px_rgba(45,91,255,0.28)] hover:bg-[#2448d9]" asChild>
             <Link href="/contact">Contact editorial</Link>
           </Button>
@@ -86,39 +84,7 @@ export default function AboutPage() {
         </div>
       </div>
 
-      <div className="mt-16 border-t border-black/[0.06] pt-16">
-        <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
-          <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#2d5bff]">Editorial roster</p>
-            <h2 className="mt-3 text-2xl font-semibold tracking-tight text-[#0b0b0b]">People behind the bylines</h2>
-            <p className="mt-3 max-w-xl text-sm text-[#5c6370]">A small, senior group of editors, reporters, and researchers—listed here in brief.</p>
-          </div>
-          <Link href="/team" className="inline-flex items-center gap-2 text-sm font-semibold text-[#2d5bff] hover:underline">
-            Full team directory
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {mockTeamMembers.slice(0, 6).map((member) => (
-            <div
-              key={member.id}
-              className="rounded-[1.75rem] border border-black/[0.06] bg-white p-6 shadow-[0_14px_40px_rgba(15,23,42,0.05)] transition hover:-translate-y-1"
-            >
-              <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#2d5bff]/10 text-sm font-bold text-[#2d5bff]">
-                  {member.name.charAt(0)}
-                </div>
-                <div>
-                  <p className="font-semibold text-[#0b0b0b]">{member.name}</p>
-                  <p className="text-xs text-[#5c6370]">{member.role}</p>
-                </div>
-              </div>
-              <p className="mt-4 text-sm leading-relaxed text-[#5c6370]">{member.bio}</p>
-              <p className="mt-3 text-xs text-[#5c6370]/80">{member.location}</p>
-            </div>
-          ))}
-        </div>
-      </div>
+      
     </PageShell>
   )
 }
